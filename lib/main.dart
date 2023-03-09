@@ -74,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
         page = GeneratorPage();
         break;
       case 1:
-        page = Placeholder();
+        page = FavoritePage();
         break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');
@@ -115,6 +115,39 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         );
       }
+    );
+  }
+}
+
+class FavoritePage extends StatelessWidget {
+  const FavoritePage({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    var appState = context.watch<MyAppState>();
+    var favoriteWords = appState.favorites;
+
+    if (favoriteWords.isEmpty){
+      return Center(
+        child: Text("You don't have any favorite word!!"),
+      );
+    }
+    return ListView(
+      padding: const EdgeInsets.all(8),
+      children: <ListTile>[
+        ListTile(
+          title: Text('You have ''${favoriteWords.length} favorites:')
+        ),
+
+        for (var word in favoriteWords)
+          ListTile(
+            leading: Icon(Icons.favorite),
+            title: Text(word.asLowerCase, style: TextStyle(fontWeight: FontWeight.bold),),
+          ),
+        
+      ],
     );
   }
 }
